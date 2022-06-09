@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.ScrollView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,9 +37,17 @@ class MainActivity : AppCompatActivity() {
 
     /* Alert dialogs */
     private lateinit var pairDialog: MaterialAlertDialogBuilder
+    private lateinit var badAbiDialog: MaterialAlertDialogBuilder
 
     /* Held when pairing */
     private var pairingLatch = CountDownLatch(0)
+
+    private var lastCommand = ""
+
+    var bookmarkGetResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val text = it.data?.getStringExtra(Intent.EXTRA_TEXT) ?: return@registerForActivityResult
+        command.setText(text)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,11 +63,17 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .setView(R.layout.dialog_pair)
 
+        badAbiDialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.bad_abi_title)
+            .setMessage(R.string.bad_abi_message)
+            .setPositiveButton(R.string.dismiss, null)
+
         /* Send commands to the ADB instance */
         command.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 if (event.action == KeyEvent.ACTION_DOWN) {
                     val text = command.text.toString()
+                    lastCommand = text
                     command.text = null
                     lifecycleScope.launch(Dispatchers.IO) {
                         viewModel.adb.sendToShellProcess(text)
@@ -128,6 +143,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        viewModel.abiUnsupportedDialog(badAbiDialog)
+        viewModel.piracyCheck(this)
     }
 
     /**
@@ -170,6 +188,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.bookmarks -> {
+                val intent = Intent(this, BookmarksActivity::class.java)
+                    .putExtra(Intent.EXTRA_TEXT, command.text.toString())
+                bookmarkGetResult.launch(intent)
+                true
+            }
+            R.id.last_command -> {
+                command.setText(lastCommand)
+                command.setSelection(lastCommand.length)
+                true
+            }
             R.id.help -> {
                 val intent = Intent(this, HelpActivity::class.java)
                 startActivity(intent)
