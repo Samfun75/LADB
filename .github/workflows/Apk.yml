@@ -34,3 +34,4 @@ jobs:
        GITHUB_TOKEN: ${{ secrets.TOKEN }}
        APP_FOLDER: app
        RELEASE_TITLE: LADP
+       REPO_BRANCH: Build_APK
