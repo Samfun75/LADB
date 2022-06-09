@@ -3,10 +3,18 @@
 
     <string name="command_hint">Shell指令</string>
 
+    <string name="bookmarks">书签</string>
     <string name="last_command">上一个指令</string>
     <string name="help">帮助</string>
     <string name="share">分享</string>
     <string name="clear">清屏</string>
+    <string name="add" translatable="false">Add</string>
+    <string name="delete" translatable="false">Delete</string>
+    <string name="edit" translatable="false">Edit</string>
+    <string name="cancel" translatable="false">Cancel</string>
+    <string name="done" translatable="false">Done</string>
+
+    <string name="delete_confirm" translatable="false">Are you sure you want to delete this?</string>
 
     <string name="snackbar_intent_failed">分享日志失败</string>
     <string name="snackbar_file_opened">执行脚本文件</string>
@@ -27,6 +35,9 @@
     <string name="pair_title">配对信息</string>
     <string name="pair_message">你可以在设置-›开发者选项-›无线调试找到端口和六位配对码。将LADB和设置<b>分屏</b>来防止配对码变化</string>
 
+    <string name="bad_abi_title" translatable="false">Unsupported device</string>
+    <string name="bad_abi_message" translatable="false">Your device is unsupported since it is 32-bit and running on Android 11+.\n\nSorry :(</string>
+
     <string name="settings">设置</string>
     <string name="troubleshooting">疑难解答</string>
     <string name="about">关于</string>
@@ -43,9 +54,13 @@
     <string name="auto_pair_summary">尝试自动和ADB配对并等待设备连接</string>
     <string name="auto_pair_key">auto_pair</string>
 
+    <string name="auto_wireless_title" translatable="false">Auto-enable wireless debugging</string>
+    <string name="auto_wireless_summary" translatable="false">Enable wireless debugging automatically upon app start for compatible devices</string>
+    <string name="auto_wireless_key" translatable="false">auto_wireless</string>
+
     <string name="buffer_size_title">缓冲区大小</string>
     <string name="buffer_size_summary">屏幕输出缓冲区的大小。增大这个值可以一次性显示更多输出但降低性能。(默认: 16384)</string>
-    <string name="buffer_size_key">buffer_size</string>
+    <string name="buffer_size_key" translatable="false">buffer_size</string>
 
     <string name="startup_command_title">启动命令</string>
     <string name="startup_command_summary">在进入Shell后要执行的命令</string>
@@ -68,7 +83,6 @@
 
     <string name="error_inaccessible_title">无法访问或未找到</string>
     <string name="error_inaccessible_summary">你很可能输入了无效的命令。LADB默认等同于已经运行\"adb shell\"。请检查自动进入ADB Shell的开关。</string>
-
 
     <string name="error_failed_to_find_title">未找到ADB服务端二进制文件</string>
     <string name="error_failed_to_find_summary">ADB服务端二进制文件未能释放，尝试重新安装App</string>
